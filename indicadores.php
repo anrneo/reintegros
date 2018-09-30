@@ -1,0 +1,201 @@
+
+
+<?php
+include 'layaut.php';
+include 'db.php';
+include 'array.php';
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+} 
+
+$sql = "SELECT count(id) from s_reintegros where estado=0";
+$result=$conn->query($sql);
+$nuevos=$result->fetch_all();    
+
+$sql = "SELECT count(id) from s_reintegros where estado=1";
+$result=$conn->query($sql);
+$aprobados=$result->fetch_all();   
+
+$sql = "SELECT count(id) from s_reintegros where estado=2";
+$result=$conn->query($sql);
+$noaprobado=$result->fetch_all();   
+
+$sql = "SELECT count(id) from s_reintegros";
+$result=$conn->query($sql);
+$total=$result->fetch_all();   
+
+$sql = "SELECT sum(valor) from s_reintegros";
+$result=$conn->query($sql);
+$cantisoli=$result->fetch_all();  
+
+$sql = "SELECT sum(valor_aprobado) from s_reintegros";
+$result=$conn->query($sql);
+$cantiapro=$result->fetch_all(); 
+
+$sql = "SELECT sum(valor) from s_reintegros where estado=2";
+$result=$conn->query($sql);
+$cantinoapro=$result->fetch_all(); 
+?>
+  <div class="container">
+  <h3 class="text-center card-header">Indicadores de Reintegros</h3><br>
+<h6>Consultas Parciales de Indicadores</h6>
+<form action="indicaparcial.php" method="post" id="formparcial" class="was-validated">
+          <div class="row">
+            <div class="col">
+              <input type="date" class="form-control form-control-sm" name="f_inicio" id="f_inicio" required>
+            </div>
+            <div class="col">
+              <input type="date" class="form-control form-control-sm" name="f_final" id="f_final" required>
+            </div>
+            <div class="col">
+            <button type="submit" class="btn btn-primary btn-sm">consultar</button>
+            </div>
+          </div>
+          
+        </form><br>
+        
+        <div id="resultado">
+        <button class="btn btn-primary btn-sm" id="buttonload">
+          <i class="fa fa-spinner fa-spin"></i> Procesando, espere por favor...
+        </button>
+        </div>
+<?php
+echo
+'<h4 class="text-secondary">Datos Globales</h4>
+ <div style="margin:0 10px 0 10px">
+    <table id="datos0" class="table table-bordered table-responsible">
+        <thead>
+            <tr class="table-primary">
+              <th class="text-center">Radicados Pendientes</th>
+              <th class="text-center">Radicados Aprobados</th>
+              <th class="text-center">Radicados NO Aprobados</th>
+              <th class="text-center">Total</th>
+              <th class="text-center">Cantidad Solicitada</th>
+              <th class="text-center">Cantidad Aprobada</th>
+              <th class="text-center">Cantidad No Aprobada</th>
+            </tr>
+        </thead>
+        <tbody class="buscar text-center">
+            </tr>
+                <td>'.$nuevos[0][0].' Solicitudes</td>
+                <td>'.$aprobados[0][0].' Solicitudes</td>
+                <td>'.$noaprobado[0][0].' Solicitudes</td>
+                <td>'.$total[0][0].' Solicitudes</td>
+                <td>$'.$cantisoli[0][0].'</td>
+                <td>$'.$cantiapro[0][0].'</td>
+                <td>$'.$cantinoapro[0][0].'</td>
+            </tr>
+        </tbody>
+    </table>
+ </div>
+ </div>';
+       
+    
+   echo " 
+    <script type='text/javascript'>
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+
+        var data = google.visualization.arrayToDataTable([
+          ['Task', 'Hours per Day'],
+          ['Pendientes',     ".$nuevos[0][0]."],
+          ['Aprobados',      ".$aprobados[0][0]."],
+          ['No Aprobados',  ".$noaprobado[0][0]."],
+          
+        ]);
+
+        var options = {
+          title: ' Reintegros Radicados'
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+        chart.draw(data, options);
+      }
+      </script>
+      <div class='row'>
+        <div class='row-md-6' id='piechart' style='width: 650px; height: 500px;'></div>
+     ";
+      echo " 
+      <script type='text/javascript'>
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Task', 'Hours per Day'],
+          ['Pendientes',     ".$cantisoli[0][0]."],
+          ['Aprobado',      ".$cantiapro[0][0]."],
+          ['No Aprobado',      ".$cantinoapro[0][0]."]
+          
+        ]);
+
+        var options = {
+          title: 'Costo de Reintegros',
+          pieHole: 0.4,
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+        chart.draw(data, options);
+      }
+    </script>
+    <div class='row-md-6' id='donutchart' style='width: 650px; height: 500px;'>
+        
+      </div>
+    </div>";
+    ?>
+      
+        
+
+   
+        
+
+      
+</body>
+<script>
+$(document).ready(function(){
+$('#buttonload').hide()
+$('#formparcial').submit(function (event){
+  event.preventDefault();
+  var parametros = {
+                "f_inicio" : $('#f_inicio').val(),
+                "f_final" : $('#f_final').val() 
+        };
+        $.ajax({
+                data:  parametros, //datos que se envian a traves de ajax
+                url:   'indicaparcial.php', //archivo que recibe la peticion
+                type:  'post', //método de envio
+                beforeSend: function () {
+                        $("#buttonload").show();
+                },
+                success:  function (response) { //una vez que el archivo recibe el request lo procesa y lo devuelve
+                        $("#resultado").html(response);
+                }
+        });
+  })
+
+  $('#filtrar').keyup(function () {
+ 
+ var rex = new RegExp($(this).val(), 'i');
+ $('.buscar tr').hide();
+ $('.buscar tr').filter(function () {
+     return rex.test($(this).text());
+ }).show();
+
+})
+  valor=$('#valor_aprobado').val()
+  $('#res_estado').change(function () {
+    if ($(this).val()=='No Aprobado') {
+      $('#valor_aprobado').val(0)
+    }else{
+      $('#valor_aprobado').val(valor)
+    }
+  })
+
+})
+</script>
+</html>
