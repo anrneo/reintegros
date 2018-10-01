@@ -65,21 +65,23 @@ if(!isset($_SESSION['id'])){
     <li class="nav-item active">
       <a class="nav-link" href="indicadores.php">Indicadores</a>
     </li>
-    <li class="nav-item">
-    <div class="dropdown">
-  <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Descargas
-  </a>
-
-  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-    <a class="dropdown-item" href="formdesc.php?tipo=1">Cuentas a Inscribir</a>
-    <a class="dropdown-item" href="formdesc.php?tipo=2">Pago Reintegros</a>
-    <a class="dropdown-item" href="descexcel.php">Todo en Excel</a>
-    
-  </div>
-</div>
-    
     <?php
+                if($_SESSION['id']==500 || $_SESSION['id']==92){
+                  echo '<li class="nav-item">
+                  <div class="dropdown">
+                    <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Descargas
+                    </a>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" href="formdesc.php?tipo=1">Cuentas a Inscribir</a>
+                        <a class="dropdown-item" href="formdesc.php?tipo=2">Pago Reintegros</a>
+                        <a class="dropdown-item" href="descexcel.php">Todo en Excel</a>
+                      </div>
+                  </div>
+                </li>';
+                }
+
+    
                 if($_SESSION['id']==500){
                   echo '<li class="nav-item">
                           <a class="nav-link" href="#">Carlos Villa</a>

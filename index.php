@@ -22,7 +22,7 @@
 <body>
 <div class="container-fluid">
     <div class="card">
-            <img class="img-fluid" src="assets/images/reintegro.PNG" alt="">
+            <img class="img-fluid" src="img/reintegro.PNG" alt="">
     </div>
 
 <br>
@@ -271,8 +271,29 @@ Señor usuario, tenga en cuenta que los reintegros por transporte se reconocen e
           <br>
     </form>
 </div>
-   
-     
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="botonmodal" hidden>
+  Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+      
+      </div>
+      <div class="modal-body">
+        <button class="btn btn-primary btn-lg btn-block" id="buttonload">
+          <i class="fa fa-spinner fa-spin"></i> Procesando, espere por favor...
+        </button>
+      </div>
+      <div class="modal-footer">
+       
+      </div>
+    </div>
+  </div>
+</div>
 </body>
 <script>
 $(document).ready(function(){
@@ -284,6 +305,7 @@ $(document).ready(function(){
         toastr.error("Por favor valida la información y los campos obligatorios, gracias");
     event.preventDefault();
      }
+     $('#botonmodal').click()
 }),
 
     $('#num_id').on({
@@ -365,8 +387,9 @@ $('#acompanante').on('change', function(){
 		// recuperamos la extensión del archivo
 		var ext = fileName.split('.').pop();
 
-		// console.log(ext);
+		 console.log(ext);
 		switch (ext) {
+            case 'PDF':
 			case 'pdf': break;
 			default:
             toastr.options = { "closeButton":true, "progressBar": true};

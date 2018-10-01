@@ -38,6 +38,6 @@
 <br>
 <div class="container-fluid">
     <div class="card">
-            <img src="assets/images/reintegro.PNG" alt="">
+            <img src="img/reintegro.PNG" alt="">
     </div>
 </div>

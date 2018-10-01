@@ -106,7 +106,7 @@ echo "
   function drawChart() {
     var data = google.visualization.arrayToDataTable([
       ['Task', 'Hours per Day'],
-      ['Pendientes',     ".$cantisoli[0][0]."],
+      ['Solicitado',     ".$cantisoli[0][0]."],
       ['Aprobado',      ".$cantiapro[0][0]."],
       ['No Aprobado',      ".$cantinoapro[0][0]."]
       

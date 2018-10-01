@@ -37,7 +37,7 @@ $sql = "SELECT * from s_reintegros where id='".$_GET['id']."'";
 ?>     
 <div class="container-fluid">
     <div class="card">
-            <img src="assets/images/reintegro.PNG" alt="">
+            <img src="img/reintegro.PNG" alt="">
     </div>
     <br><br>
     <div class="alert alert-primary" role="alert">

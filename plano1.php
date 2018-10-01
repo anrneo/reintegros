@@ -38,16 +38,19 @@ $myfile = fopen("planos/$filename", "w") or die("Unable to open file!");
   readfile($enlace);
   
 }elseif($tipo==2) {
-  $sql = "SELECT * from s_reintegros where f_creado>='".$inicial."' and f_creado<='".$final."' and estado=1 GROUP BY numerocuenta order by f_creado";
+  $sql = "SELECT * from s_reintegros where f_creado>='".$inicial."' and f_creado<='".$final."' and estado=1 and pago=0 GROUP BY numerocuenta order by f_creado";
   $result = $conn->query($sql);
   $data=$result->fetch_all();
-  
+
+   
   $filename = "Pago_reintegros ".date('Y-m-d')." ".date("h-i-sa").".txt";
 
 $myfile = fopen("planos/$filename", "w") or die("Unable to open file!");
 
 
   foreach ($data as $key => $row) {
+    $sql1 = "UPDATE s_reintegros SET pago=1 where id>=$row[0] and estado=1";
+    $result1 = $conn->query($sql1);
     //cedula titular
     $dif=15-strlen(trim($row[26]));
     $data='6';
