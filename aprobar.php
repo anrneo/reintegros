@@ -1,7 +1,7 @@
 
 <?php
 include 'db.php';
-
+session_start();
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 // Check connection
@@ -19,13 +19,17 @@ $res_aprobado = $_POST["res_aprobado"];
 $respuesta = $res_estado.' - '.$res_aprobado;
 
 if($res_estado=='Aprobado'){
-$sql = "UPDATE s_reintegros SET estado=1, valor_aprobado='".$valor_aprobado."', res_aprobado='".$respuesta."' where id=$id";
+$sql = "UPDATE s_reintegros SET  estado=1, valor_aprobado='".$valor_aprobado."', res_aprobado='".$respuesta."' where id=$id";
 }else{
     $sql = "UPDATE s_reintegros SET estado=2, valor_aprobado=0, res_aprobado='".$respuesta."' where id=$id";
     $valor_aprobado=0;
 }
 $conn->query($sql);
 
+if(isset($_SESSION['name'])){
+    $sql = "UPDATE s_reintegros SET nom_aprobado='".$_SESSION['name']."'  where id=$id";
+    $conn->query($sql);
+}
 
 $sql = "SELECT * from s_reintegros where id=$id";
 $dat=$conn->query($sql);

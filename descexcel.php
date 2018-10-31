@@ -10,7 +10,7 @@ if ($conn->connect_error) {
 $sql = "select id, f_atencion, pnombre, snombre, papellido, sapellido, edad, t_afiliado, t_id, num_id, tel1,
 tel2, email, dpto1, ciudad1, dpto2, ciudad2, direccion, servicio, ins_medica, municipiomedica,
  profesional, acompanante, dacompanante, mtransporte, nombretitular, documentotitular, numerocuenta, 
- entidadcuenta, tipocuenta, valor, f_creado, estado, valor_aprox, valor_aprobado, res_aprobado from s_reintegros";
+ entidadcuenta, tipocuenta, valor, f_creado, estado, valor_aprox, valor_aprobado, res_aprobado, pago from s_reintegros";
 $result = $conn->query($sql);
 $data=$result->fetch_all();
 
@@ -69,6 +69,7 @@ $str = mb_convert_encoding($str, 'UTF-16LE', 'UTF-8');
     36 => "V. TEORICO",
     37 => "V. APROBADO",
     38 => "RESPUESTA",
+    39 => "PAGO",
   ];
 
   function map_colnames($input)

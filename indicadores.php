@@ -38,6 +38,10 @@ $cantiapro=$result->fetch_all();
 $sql = "SELECT sum(valor) from s_reintegros where estado=2";
 $result=$conn->query($sql);
 $cantinoapro=$result->fetch_all(); 
+
+$sql = "SELECT sum(valor) from s_reintegros where estado=0";
+$result=$conn->query($sql);
+$cantipend=$result->fetch_all(); 
 ?>
   <div class="container">
   <h3 class="text-center card-header">Indicadores de Reintegros</h3><br>
@@ -66,7 +70,7 @@ $cantinoapro=$result->fetch_all();
 echo
 '<h4 class="text-secondary">Datos Globales</h4>
  <div style="margin:0 10px 0 10px">
-    <table id="datos0" class="table table-bordered table-responsible">
+    <table id="datos0" class="table table-bordered table-responsible table-sm">
         <thead>
             <tr class="table-primary">
               <th class="text-center">Radicados Pendientes</th>
@@ -76,6 +80,7 @@ echo
               <th class="text-center">Cantidad Solicitada</th>
               <th class="text-center">Cantidad Aprobada</th>
               <th class="text-center">Cantidad No Aprobada</th>
+              <th class="text-center">Cantidad Pendiente</th>
             </tr>
         </thead>
         <tbody class="buscar text-center">
@@ -86,7 +91,13 @@ echo
                 <td>'.$total[0][0].' Solicitudes</td>
                 <td>$'.$cantisoli[0][0].'</td>
                 <td>$'.$cantiapro[0][0].'</td>
-                <td>$'.$cantinoapro[0][0].'</td>
+                <td>$'.$cantinoapro[0][0].'</td>';
+                     if($cantipend[0][0]==null){
+                      echo "<td>0</td>";
+                    }else{
+                      echo '<td>$'.$cantipend[0][0].'</td>';
+                    }
+                     echo ' 
             </tr>
         </tbody>
     </table>
@@ -128,7 +139,7 @@ echo
       function drawChart() {
         var data = google.visualization.arrayToDataTable([
           ['Task', 'Hours per Day'],
-          ['Solicitado',     ".$cantisoli[0][0]."],
+          ['Pendiente',     ".$cantipend[0][0]."],
           ['Aprobado',      ".$cantiapro[0][0]."],
           ['No Aprobado',      ".$cantinoapro[0][0]."]
           
@@ -147,13 +158,52 @@ echo
         
       </div>
     </div>";
+
+    $sql = "SELECT * from s_reintegros where estado=1 order by valor_aprobado desc limit 20";
+    $result=$conn->query($sql);
+    $valores=$result->fetch_all(); 
+
+    
     ?>
       
+      
+    <div class="container">
+    <h5>Mayor costo de valor aprobado por usuario</h5>
+    <table class="table table-sm table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Radicado</th>
+      <th scope="col">Fecha</th>
+      <th scope="col">Nombre</th>
+      <th scope="col">N° Identidad</th>
+      <th scope="col">Valor Aprobado</th>
+      <th scope="col">HC</th>
+      <th scope="col">Documento</th>
+      <th scope="col">Tiquete</th>
+    </tr>
+  </thead>
+  <tbody>
+  <?php
+    foreach ($valores as $key => $val) {
+      echo '<tr>
+                <th scope="row">'.$val[0].'</th>
+                <td>'.$val[34].'</td>
+                <td>'.strtoupper($val[2]).' '.strtoupper($val[4]).'</td>
+                <td>'.$val[9].'</td>
+                <td>'.$val[37].'</td>
+                <td><a href="https://redvitalut.com/reintegros/'.$val[31].'" target="_blank">Ver</a></td>
+                <td><a href="https://redvitalut.com/reintegros/'.$val[32].'" target="_blank">Ver</a></td>
+                <td><a href="https://redvitalut.com/reintegros/'.$val[33].'" target="_blank">Ver</a></td>
+            </tr>';
+          }
+      ?>
+  
+    
+  </tbody>
+</table>
+</div>
         
-
-   
-        
-
+<br><br>
       
 </body>
 <script>

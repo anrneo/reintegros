@@ -10,6 +10,8 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 } 
+$sql1 = "DELETE FROM `s_reintegros` WHERE f_atencion='0000-00-00'";
+$result1=$conn->query($sql1);
 
 $sql = "SELECT * from s_reintegros where estado=0";
 $result=$conn->query($sql);
@@ -30,7 +32,7 @@ $arr=$result->fetch_all();
 echo
 
 '<div style="margin:0 10px 0 10px">
-<table id="datos0" class="table table-bordered table-responsible">
+<table id="datos0" class="table table-bordered table-responsible table-sm">
 <thead>
   <tr class="table-primary">
     <th class="text-center">Radicado</th>
@@ -139,9 +141,9 @@ foreach($arr as $row){
         <b>Institución Médica: </b>'.$row[19].'<br>  
         <b>Municipio de la Institución Médica: </b>'.$row[20].'<br> 
         <b>Nombre del profesional: </b>'.$row[21].'<br> 
-        <a href="'.$row[31].'" target="_blank">Historia Clínica</a><br>  
-        <a href="'.$row[32].'" target="_blank">Documento de Identidad</a> <br> 
-        <a href="'.$row[33].'" target="_blank">Tiquete</a> <br> 
+        <a href="https://redvitalut.com/reintegros/'.$row[31].'" target="_blank">Historia Clínica</a><br>  
+        <a href="https://redvitalut.com/reintegros/'.$row[32].'" target="_blank">Documento de Identidad</a> <br> 
+        <a href="https://redvitalut.com/reintegros/'.$row[33].'" target="_blank">Tiquete</a> <br> 
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>

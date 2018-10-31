@@ -1,4 +1,12 @@
 <?php
+
+$users = array(
+    70=>'Luisa Fernanda Alzate',
+    92=>'Alexander Barrera',
+    284=>'Melisa Espinosa Alvarez',
+    
+);
+
 $bancos = array(
     '1040'=>'AGRARIO',
     '6013677'=>'AV VILLAS',

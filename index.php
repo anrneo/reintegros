@@ -298,6 +298,18 @@ Señor usuario, tenga en cuenta que los reintegros por transporte se reconocen e
 <script>
 $(document).ready(function(){
 
+   /* $('#email').on('focusout', function(){
+        $.ajax({
+        method: "POST",
+        url: "validaremail.php",
+        data: { email: $(this).val() }
+      })
+        .done(function( msg ) {
+            //console.log(msg);
+            
+        })
+    })*/
+
     $("#dataform").on("submit", function(event) {
     if  (!/^([0-9])*$/.test($('#num_id').val())  || !/^([0-9])*$/.test($('#valor').val()) || !/^([0-9])*$/.test($('#documentotitular').val())
     || !/^([0-9])*$/.test($('#numerocuenta').val())) {
@@ -577,44 +589,32 @@ var dpto1 = $('#dpto1')
                dpto1.html('') 
                dptos.forEach(function(depar) {
                    dpto1.append('<option>'+depar.departamento+'</option>')
-
-})
-
+                })
 
 var city1 = $('#ciudad1')
                city1.html('') 
                dptos[0].ciudades.forEach(function(depar) {
                 city1.append('<option>'+depar+'</option>')
-
-})
+                })
 
 var city2 = $('#ciudad2')
                city2.html('') 
                dptos[0].ciudades.forEach(function(depar) {
                 city2.append('<option>'+depar+'</option>')
-
-})
+                })
   
-
 $('#dpto1').on('click',function(){
-   nom = $('#dpto1').val()
-   
-   for(i=0; i<dptos.length;i++){
+    nom = $('#dpto1').val()
+        for(i=0; i<dptos.length;i++){
           if(dptos[i].departamento==nom){
            ide = i
-           
           }
-           
-   }
-
+        }
    var ciudad = $('#ciudad1')
    ciudad.html('')  
    dptos[ide].ciudades.forEach(function(cities) {
        ciudad.append('<option>'+cities+'</option>')
-
-   })
-   
-
+        })
    })
 
    var dpto2 = $('#dpto2')

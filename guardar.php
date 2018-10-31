@@ -8,18 +8,19 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 } 
-
+$num_id = $_POST["num_id"];  
+$rand=rand();
 $carpeta = "uploads/";
 opendir($carpeta);
-$destino1 = $carpeta.rand().$_FILES['adhistoria'] ['name'];
+$destino1 = $carpeta.$num_id.'_'.$rand.'_his.pdf';
 copy($_FILES['adhistoria'] ['tmp_name'],$destino1);
 
 opendir($carpeta);
-$destino2 = $carpeta.rand().$_FILES['addocumento'] ['name'];
+$destino2 = $carpeta.$num_id.'_'.$rand.'_doc.pdf';
 copy($_FILES['addocumento'] ['tmp_name'],$destino2);
 
 opendir($carpeta);
-$destino3 = $carpeta.rand().$_FILES['adtiquete'] ['name'];
+$destino3 = $carpeta.$num_id.'_'.$rand.'_tiq.pdf';
 copy($_FILES['adtiquete'] ['tmp_name'],$destino3);
 
 
@@ -34,7 +35,7 @@ $edad = $_POST["edad"];
 
 $t_afiliado = $_POST["t_afiliado"];    
 $t_id = $_POST["t_id"];    
-$num_id = $_POST["num_id"];    
+  
 $tel1 = $_POST["tel1"];    
 $tel2 = $_POST["tel2"];    
 $email = $_POST["email"];    
@@ -149,7 +150,8 @@ try {
                 Coordinación de Reintegros Sumimedical
                 </div><br><br><br>';
     $body .= '<h2>Observación: </h2>
-                <h3>Este correo es solo para enviar los datos de solicitud de reintegros a los usarios, por favor no responda sobre el mismo, dado que, esta respuesta no será analizada. </h2>
+                <h3>Este correo es solo para enviar los datos de solicitud de reintegros a los usarios, por favor no responda sobre el mismo, dado que, esta respuesta no será analizada.
+                Para inquietudes o dudas, por favor escribir al correo reintegros@sumimedical.com </h2>
                   </div>';
 //Attachments
 

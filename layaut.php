@@ -94,7 +94,11 @@ if(!isset($_SESSION['id'])){
                   echo '<li class="nav-item">
                            <a class="nav-link" href="#">Luisa Alzate</a>
                          </li>';
-               }
+               }elseif($_SESSION['id']==284){
+                echo '<li class="nav-item">
+                         <a class="nav-link" href="#">Melisa Espinosa Alvarez</a>
+                       </li>';
+             }
               ?>
    <li class="nav-item">
       <a class="nav-link" href="logout.php">Cerrar sesión</a>

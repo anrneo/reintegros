@@ -30,7 +30,7 @@ $arr=$result->fetch_all();
 echo
 
 '<div style="margin:0 10px 0 10px">
-<table id="datos0" class="table table-bordered table-responsible">
+<table id="datos0" class="table table-bordered table-responsible table-sm">
 <thead>
   <tr class="table-primary">
     <th class="text-center">Radicado</th>
@@ -44,6 +44,7 @@ echo
     <th class="text-center">Valor</th>
     <th class="text-center">Valor Aprox.</th>
     <th class="text-center">Diferencia</th>
+    <th class="text-center">Admin</th>
   </tr>
 </thead>
 <tbody class="buscar text-center">';
@@ -71,7 +72,7 @@ foreach($arr as $row){
     }else{
         echo '<td class="bg-success">'.$dif.'</td>';
     }
-    
+    echo '<td>'.$row[40].'</td>';
    
 }
     echo '</tr>

@@ -41,10 +41,14 @@ $sql = "SELECT sum(valor) from s_reintegros where f_creado>='".$f_inicio."' and 
 $result=$conn->query($sql);
 $cantinoapro=$result->fetch_all();
 
+$sql = "SELECT sum(valor) from s_reintegros where f_creado>='".$f_inicio."' and f_creado<='".$f_final."' and estado=0";
+$result=$conn->query($sql);
+$cantipend=$result->fetch_all();
+
 if(count($dat)>0){
     echo '<h5 class="text-secondary">Datos Parciales del '.$f_inicio.' al '.$f_final.'</h5>
     <div style="margin:0 10px 0 10px">
-       <table id="datos0" class="table table-bordered table-responsible">
+       <table id="datos0" class="table table-bordered table-responsible table-sm">
            <thead>
                <tr class="table-warning">
                  <th class="text-center">Radicados Pendientes</th>
@@ -54,6 +58,7 @@ if(count($dat)>0){
                  <th class="text-center">Cantidad Solicitada</th>
                  <th class="text-center">Cantidad Aprobada</th>
                  <th class="text-center">Cantidad No Aprobada</th>
+                 <th class="text-center">Cantidad Pendiente</th>
                </tr>
            </thead>
            <tbody class="buscar text-center">
@@ -64,7 +69,13 @@ if(count($dat)>0){
                      <td>'.$total[0][0].' Solicitudes</td>
                      <td>$'.$cantisoli[0][0].'</td>
                      <td>$'.$cantiapro[0][0].'</td>
-                     <td>$'.$cantinoapro[0][0].'</td>
+                     <td>$'.$cantinoapro[0][0].'</td>';
+                     if($cantipend[0][0]==null){
+                      echo "<td>0</td>";
+                    }else{
+                      echo '<td>$'.$cantipend[0][0].'</td>';
+                    }
+                     echo ' 
                 </tr>
             </tbody>
         </table>
@@ -105,8 +116,13 @@ echo "
     google.charts.setOnLoadCallback(drawChart);
   function drawChart() {
     var data = google.visualization.arrayToDataTable([
-      ['Task', 'Hours per Day'],
-      ['Solicitado',     ".$cantisoli[0][0]."],
+      ['Task', 'Hours per Day'],";
+      if($cantipend[0][0]==null){
+        echo "['Pendiente',    0],";
+      }else{
+        echo "['Pendiente',     ".$cantipend[0][0]."],";
+      }
+      echo "
       ['Aprobado',      ".$cantiapro[0][0]."],
       ['No Aprobado',      ".$cantinoapro[0][0]."]
       
